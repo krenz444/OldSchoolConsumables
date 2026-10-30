@@ -94,21 +94,27 @@ If GitHub Actions CI is not used, or if an urgent manual patch must be deployed 
 
 ### 1. Build the Distribution Archive
 
-Ensure development files (`.git`, `tests/`, `tools/`, `.github`) are omitted:
+WoW addon archives **must** contain an internal `OldSchoolConsumables/` top-level directory to prevent file sprawl into the player's `Interface\AddOns` folder.
+
+#### Option A: Python Packaging Tool (Recommended)
+Run the automated release packaging script, which strictly enforces the `OldSchoolConsumables/` internal directory hierarchy, validates CRC-32 integrity, and excludes development files:
+
+```bash
+# From the repository root:
+python projects/old-school-consumables/tools/build_release_zip.py
+```
+
+#### Option B: PowerShell Staging Command
+If Python is unavailable, stage the distribution files into a temporary `OldSchoolConsumables` folder before compressing:
 
 ```powershell
 # From the repository root:
-Compress-Archive -Path `
-  projects\old-school-consumables\OldSchoolConsumables.toc, `
-  projects\old-school-consumables\Database.lua, `
-  projects\old-school-consumables\AudioEngine.lua, `
-  projects\old-school-consumables\OverheadDisplay.lua, `
-  projects\old-school-consumables\TriggerEngine.lua, `
-  projects\old-school-consumables\UI_DraggableWindow.lua, `
-  projects\old-school-consumables\UI_BlizzardSettings.lua, `
-  projects\old-school-consumables\Core.lua, `
-  projects\old-school-consumables\Sounds `
-  -DestinationPath "dist\OldSchoolConsumables-v1.0.0.zip" -Force
+$StageDir = "dist\staging\OldSchoolConsumables"
+New-Item -ItemType Directory -Force -Path "$StageDir\Sounds" | Out-Null
+Copy-Item projects\old-school-consumables\*.lua, projects\old-school-consumables\*.toc -Destination $StageDir
+Copy-Item projects\old-school-consumables\Sounds\* -Destination "$StageDir\Sounds"
+Compress-Archive -Path "dist\staging\OldSchoolConsumables" -DestinationPath "dist\OldSchoolConsumables-v1.0.0.zip" -Force
+Remove-Item "dist\staging" -Recurse -Force
 ```
 
 ### 2. Upload via Wago Dashboard
