@@ -1,0 +1,14 @@
+package-as: OldSchoolConsumables
+
+ignore:
+  - .git
+  - .github
+  - .gitignore
+  - .pkgmeta
+  - README.md
+  - CHANGELOG.md
+  - WAGO_RELEASE_GUIDE.md
+  - tests
+  - tools
+  - deploy.ps1
+  - dist

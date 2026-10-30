@@ -1,0 +1,19 @@
+## Interface: 120100, 120105
+## Title: |cffffd100OldSchoolConsumables|r
+## Notes: Plays authentic Old School RuneScape drinking and eating sound effects when using consumables.
+## Author: OldSchoolConsumables Team
+## Version: 1.0.0
+## SavedVariables: OldSchoolConsumablesDB
+## IconTexture: Interface\Icons\INV_Potion_51
+## Category: Audio
+## X-Category: Audio
+## X-Wago-ID: 
+# Note: Set X-Wago-ID above to the 8-character project ID from addons.wago.io once registered
+
+Database.lua
+AudioEngine.lua
+OverheadDisplay.lua
+TriggerEngine.lua
+UI_DraggableWindow.lua
+UI_BlizzardSettings.lua
+Core.lua
